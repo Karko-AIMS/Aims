@@ -1,0 +1,42 @@
+﻿using Aims.Api.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Aims.Api.Infrastructure.Configurations;
+
+public sealed class UserConfiguration : IEntityTypeConfiguration<User>
+{
+    public void Configure(EntityTypeBuilder<User> b)
+    {
+        b.ToTable("users");
+
+        b.HasKey(x => x.Id);
+
+        b.Property(x => x.Email)
+            .HasMaxLength(320)
+            .IsRequired();
+
+        b.HasIndex(x => x.Email)
+            .IsUnique();
+
+        b.Property(x => x.PasswordHash)
+            .HasMaxLength(512)
+            .IsRequired();
+
+        b.Property(x => x.OrgId)
+            .IsRequired();
+
+        b.Property(x => x.Role)
+            .HasConversion<string>()
+            .HasMaxLength(50)
+            .IsRequired();
+
+        b.Property(x => x.IsActive)
+            .IsRequired();
+
+        b.Property(x => x.CreatedAtUtc)
+            .IsRequired();
+
+        b.Property(x => x.UpdatedAtUtc);
+    }
+}
