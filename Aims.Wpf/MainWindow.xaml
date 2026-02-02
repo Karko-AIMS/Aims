@@ -5,28 +5,160 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Aims.Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="AIMS WPF Client" Height="520" Width="920">
+
     <Grid Margin="16">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock FontSize="18" FontWeight="SemiBold" Text="AIMS WPF Client" />
+        <TextBlock Grid.Row="0"
+                   FontSize="18"
+                   FontWeight="SemiBold"
+                   Text="AIMS WPF Client" />
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,12,0,0">
-            <Button x:Name="PingButton" Width="120" Height="32" Content="Ping"
-                Click="PingButton_Click" />
-            <TextBlock x:Name="ResultText" Margin="12,6,0,0" />
-        </StackPanel>
+        <Grid Grid.Row="1" Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="360"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <TextBox x:Name="LogText"
-             Grid.Row="2"
-             Margin="0,12,0,0"
-             AcceptsReturn="True"
-             IsReadOnly="True"
-             VerticalScrollBarVisibility="Auto" />
+            <!-- LEFT: Auth + Register -->
+            <StackPanel Grid.Column="0" Orientation="Vertical">
+
+                <!-- Auth -->
+                <GroupBox Header="Auth">
+                    <Grid Margin="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,8,6" VerticalAlignment="Center" Text="Email"/>
+                        <TextBox x:Name="EmailBox" Grid.Row="0" Grid.Column="1" Height="28" Margin="0,0,0,6"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,8,6" VerticalAlignment="Center" Text="Password"/>
+                        <PasswordBox x:Name="PasswordBox" Grid.Row="1" Grid.Column="1" Height="28" Margin="0,0,0,6"/>
+
+                        <CheckBox x:Name="RememberMeCheckBox"
+                                  Grid.Row="2"
+                                  Grid.Column="1"
+                                  Margin="0,0,0,10"
+                                  Content="Remember me"/>
+
+                        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+                            <Button x:Name="LoginButton" Width="110" Height="32" Content="Login" Click="LoginButton_Click"/>
+                            <Button x:Name="LogoutButton" Width="110" Height="32" Margin="8,0,0,0" Content="Logout" Click="LogoutButton_Click"/>
+                        </StackPanel>
+
+                        <TextBlock x:Name="AuthStatusText"
+                                   Grid.Row="4"
+                                   Grid.Column="0"
+                                   Grid.ColumnSpan="2"
+                                   Margin="0,10,0,0"
+                                   Text="Not authenticated"/>
+                    </Grid>
+                </GroupBox>
+
+                <!-- spacing -->
+                <Border Height="12" Background="Transparent"/>
+
+                <!-- Register -->
+                <GroupBox Header="Register (Admin only)">
+                    <Grid Margin="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,8,6" VerticalAlignment="Center" Text="Email"/>
+                        <TextBox x:Name="RegEmailBox" Grid.Row="0" Grid.Column="1" Height="28" Margin="0,0,0,6"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,8,6" VerticalAlignment="Center" Text="Password"/>
+                        <PasswordBox x:Name="RegPasswordBox" Grid.Row="1" Grid.Column="1" Height="28" Margin="0,0,0,6"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,0,8,6" VerticalAlignment="Center" Text="OrgId"/>
+                        <TextBox x:Name="RegOrgIdBox"
+                                 Grid.Row="2"
+                                 Grid.Column="1"
+                                 Height="28"
+                                 Margin="0,0,0,6"
+                                 Text="00000000-0000-0000-0000-000000000001"/>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,0,8,10" VerticalAlignment="Center" Text="Role"/>
+                        <ComboBox x:Name="RegRoleCombo" Grid.Row="3" Grid.Column="1" Height="28" Margin="0,0,0,10" SelectedIndex="1">
+                            <ComboBoxItem Content="InternalAdmin (0)"/>
+                            <ComboBoxItem Content="Operator (1)"/>
+                            <ComboBoxItem Content="Viewer (2)"/>
+                        </ComboBox>
+
+                        <Button x:Name="RegisterButton"
+                                Grid.Row="4"
+                                Grid.Column="1"
+                                Height="32"
+                                Width="110"
+                                HorizontalAlignment="Left"
+                                Content="Register"
+                                Click="RegisterButton_Click"/>
+                    </Grid>
+                </GroupBox>
+
+            </StackPanel>
+
+            <!-- RIGHT: Ping + Result + Log -->
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <GroupBox Grid.Row="0" Header="Quick Test">
+                    <Grid Margin="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button x:Name="PingButton"
+                                Grid.Column="0"
+                                Width="120"
+                                Height="32"
+                                Content="Ping"
+                                Click="PingButton_Click"/>
+
+                        <TextBlock x:Name="ResultText"
+                                   Grid.Column="1"
+                                   Margin="12,6,0,0"/>
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Grid.Row="1" Header="Log" Margin="0,12,0,0">
+                    <TextBox x:Name="LogText"
+                             Margin="12"
+                             AcceptsReturn="True"
+                             IsReadOnly="True"
+                             VerticalScrollBarVisibility="Auto" />
+                </GroupBox>
+            </Grid>
+
+        </Grid>
     </Grid>
-
 </Window>
