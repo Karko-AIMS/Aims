@@ -38,5 +38,22 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired();
 
         b.Property(x => x.UpdatedAtUtc);
+
+        // FK: users.org_id -> organizations.id
+        b.HasOne(x => x.Org)
+            .WithMany(o => o.Users)
+            .HasForeignKey(x => x.OrgId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // audit inverse navs
+        b.HasMany(x => x.CreatedVehicles)
+            .WithOne(v => v.CreatedByUser)
+            .HasForeignKey(v => v.CreatedByUserId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        b.HasMany(x => x.UpdatedVehicles)
+            .WithOne(v => v.UpdatedByUser)
+            .HasForeignKey(v => v.UpdatedByUserId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

@@ -17,4 +17,10 @@ public sealed class User
     public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
 
     public DateTime? UpdatedAtUtc { get; set; }
+
+    public Organization Org { get; set; } = null!;
+
+    public List<Vehicle> CreatedVehicles { get; set; } = new();
+    public List<Vehicle> UpdatedVehicles { get; set; } = new();
+
 }
