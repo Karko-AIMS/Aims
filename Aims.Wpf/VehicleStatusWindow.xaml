@@ -1,0 +1,116 @@
+﻿<Window x:Class="Aims.Wpf.VehicleStatusWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Vehicle Status" Height="520" Width="980"
+        WindowStartupLocation="CenterOwner">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" FontSize="16" FontWeight="SemiBold" Text="Vehicle Status" />
+
+        <TextBlock x:Name="WhoText"
+                   Grid.Row="1"
+                   Margin="0,8,0,0"
+                   Text=""/>
+
+        <!-- Main content: Vehicle(LEFT) + Admin Register(RIGHT) -->
+        <Grid Grid.Row="2" Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="360"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT: Vehicle placeholder -->
+            <GroupBox Grid.Column="0" Header="Vehicles">
+                <StackPanel Margin="12">
+                    <TextBlock Text="Tomorrow: bind Vehicle CRUD here (DataGrid + Create/Edit/Delete)" />
+                    <TextBlock x:Name="InfoText" Margin="0,8,0,0" Text="" />
+                    <TextBlock x:Name="StatusText" Margin="0,8,0,0" Text="" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- RIGHT: Admin Register panel (InternalAdmin only) -->
+            <GroupBox x:Name="AdminRegisterGroup"
+                      Grid.Column="2"
+                      Header="Admin - Register User"
+                      Visibility="Collapsed">
+                <Grid Margin="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,8,8" VerticalAlignment="Center" Text="Email"/>
+                    <TextBox x:Name="RegEmailBox" Grid.Row="0" Grid.Column="1" Height="28" Margin="0,0,0,8"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,8,8" VerticalAlignment="Center" Text="Password"/>
+                    <PasswordBox x:Name="RegPasswordBox" Grid.Row="1" Grid.Column="1" Height="28" Margin="0,0,0,8"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,0,8,8" VerticalAlignment="Center" Text="OrgId"/>
+                    <TextBox x:Name="RegOrgIdBox"
+                             Grid.Row="2"
+                             Grid.Column="1"
+                             Height="28"
+                             Margin="0,0,0,8"
+                             Text="00000000-0000-0000-0000-000000000001"/>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,0,8,8" VerticalAlignment="Center" Text="Role"/>
+                    <ComboBox x:Name="RegRoleCombo" Grid.Row="3" Grid.Column="1" Height="28" Margin="0,0,0,8" SelectedIndex="1">
+                        <ComboBoxItem Content="InternalAdmin (0)"/>
+                        <ComboBoxItem Content="Operator (1)"/>
+                        <ComboBoxItem Content="Viewer (2)"/>
+                    </ComboBox>
+
+                    <Button x:Name="RegisterButton"
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Height="32"
+                            Width="110"
+                            HorizontalAlignment="Left"
+                            Content="Register"
+                            Click="RegisterButton_Click"/>
+
+                    <TextBlock x:Name="RegisterStatusText"
+                               Grid.Row="5"
+                               Grid.Column="0"
+                               Grid.ColumnSpan="2"
+                               Margin="0,10,0,0"
+                               TextWrapping="Wrap"/>
+                </Grid>
+            </GroupBox>
+        </Grid>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="3"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Left"
+                    Margin="0,12,0,0">
+            <Button x:Name="LogoutButton"
+                    Height="32"
+                    Width="110"
+                    Content="Logout"
+                    Click="LogoutButton_Click"/>
+            <Button x:Name="CloseButton"
+                    Height="32"
+                    Width="110"
+                    Margin="8,0,0,0"
+                    Content="Close"
+                    Click="CloseButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
