@@ -13,6 +13,7 @@ public sealed class AuthService
         _tokenStore = tokenStore;
     }
 
+    // ---------- LOGIN ----------
     public sealed record LoginRequest(string Email, string Password);
 
     public sealed record LoginResponse(
@@ -47,12 +48,37 @@ public sealed class AuthService
         _api.ApplyAuthHeader();
     }
 
+    // ---------- ME ----------
+    public sealed record MeResponse(
+        string? userId,
+        string? email,
+        string? role,
+        string? orgId
+    );
+
+    public async Task<MeResponse> MeAsync()
+    {
+        var resp = await _api.Http.GetAsync("api/auth/me");
+
+        if (!resp.IsSuccessStatusCode)
+        {
+            var body = await resp.Content.ReadAsStringAsync();
+            throw new InvalidOperationException($"Me failed: {(int)resp.StatusCode} {resp.ReasonPhrase}\n{body}");
+        }
+
+        var data = await resp.Content.ReadFromJsonAsync<MeResponse>()
+                   ?? throw new InvalidOperationException("Me response is empty");
+
+        return data;
+    }
+
+    // ---------- REGISTER ----------
     public sealed record RegisterRequest(
-    string Email,
-    string Password,
-    Guid OrgId,
-    int Role
-);
+        string Email,
+        string Password,
+        Guid OrgId,
+        int Role
+    );
 
     public sealed record RegisterResponse(
         Guid id,
@@ -65,7 +91,10 @@ public sealed class AuthService
 
     public async Task<RegisterResponse> RegisterAsync(string email, string password, Guid orgId, int role)
     {
-        var resp = await _api.Http.PostAsJsonAsync("api/auth/register", new RegisterRequest(email, password, orgId, role));
+        var resp = await _api.Http.PostAsJsonAsync(
+            "api/auth/register",
+            new RegisterRequest(email, password, orgId, role)
+        );
 
         if (!resp.IsSuccessStatusCode)
         {
@@ -78,5 +107,4 @@ public sealed class AuthService
 
         return data;
     }
-
 }
