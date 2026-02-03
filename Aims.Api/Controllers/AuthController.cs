@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace Aims.Api.Controllers;
 
@@ -152,5 +154,24 @@ public sealed class AuthController : ControllerBase
             admin.OrgId,
             role = admin.Role.ToString()
         });
+    }
+
+    // GET /api/auth/me
+    [HttpGet("me")]
+    [Authorize]
+    public IActionResult Me()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)
+                  ?? User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+
+        var email = User.FindFirstValue(ClaimTypes.Email)
+                  ?? User.FindFirstValue(JwtRegisteredClaimNames.Email)
+                  ?? User.FindFirstValue("email");
+
+        var role = User.FindFirstValue(ClaimTypes.Role);
+
+        var orgId = User.FindFirstValue("orgId");
+
+        return Ok(new { userId, email, role, orgId });
     }
 }
