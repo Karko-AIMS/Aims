@@ -34,17 +34,22 @@ public sealed class AuthController : ControllerBase
     // ---------- DTOs ----------
     public sealed record LoginRequest(string Email, string Password);
 
+    // OrgId는 InternalAdmin이면 무시(= null로 저장)
     public sealed record RegisterRequest(
         string Email,
         string Password,
         Guid OrgId,
         UserRole Role);
 
+    // Seed도 OrgId는 받지만 InternalAdmin이므로 실제 저장에서는 무시(null)
     public sealed record SeedDevAdminRequest(string Email, string Password, Guid OrgId);
 
     // ---------- Helpers ----------
     private static string NormalizeEmail(string? email)
         => (email ?? "").Trim().ToLowerInvariant();
+
+    private static bool IsInternalAdminRole(UserRole role)
+        => role == UserRole.InternalAdmin;
 
     // ---------- API ----------
     // POST /api/auth/login
@@ -58,6 +63,14 @@ public sealed class AuthController : ControllerBase
         var user = await _db.Users.FirstOrDefaultAsync(x => x.IsActive && x.Email.ToLower() == email);
         if (user is null)
             return Unauthorized(new { code = "AUTH_401", message = "Invalid credentials" });
+
+        // Org-bound 유저는 Org 활성 상태 체크
+        if (user.OrgId.HasValue)
+        {
+            var org = await _db.Organizations.FirstOrDefaultAsync(o => o.Id == user.OrgId.Value);
+            if (org is null || !org.IsActive)
+                return Unauthorized(new { code = "AUTH_401", message = "Invalid credentials" }); // 정보 노출 방지
+        }
 
         var ok = _hasher.VerifyHashedPassword(user, user.PasswordHash, req.Password);
         if (ok == PasswordVerificationResult.Failed)
@@ -88,11 +101,29 @@ public sealed class AuthController : ControllerBase
         if (exists)
             return Conflict(new { code = "AUTH_409", message = "Email already exists" });
 
+        // InternalAdmin이 아니면 OrgId 필수 + Org 존재/활성 검증
+        Guid? orgId = null;
+
+        if (!IsInternalAdminRole(req.Role))
+        {
+            if (req.OrgId == Guid.Empty)
+                return BadRequest(new { code = "AUTH_400", message = "OrgId is required for non-admin users" });
+
+            var org = await _db.Organizations.FirstOrDefaultAsync(o => o.Id == req.OrgId);
+            if (org is null)
+                return BadRequest(new { code = "AUTH_400", message = "Organization not found" });
+
+            if (!org.IsActive)
+                return BadRequest(new { code = "AUTH_400", message = "Organization is inactive" });
+
+            orgId = req.OrgId;
+        }
+
         var user = new User
         {
             Id = Guid.NewGuid(),
             Email = email,
-            OrgId = req.OrgId,
+            OrgId = orgId,
             Role = req.Role,
             IsActive = true,
             CreatedAtUtc = DateTime.UtcNow
@@ -131,11 +162,12 @@ public sealed class AuthController : ControllerBase
         if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(req.Password))
             return BadRequest(new { code = "SEED_400", message = "Email and Password are required" });
 
+        // InternalAdmin은 org에 소속되지 않는다 (OrgId = null)
         var admin = new User
         {
             Id = Guid.NewGuid(),
             Email = email,
-            OrgId = req.OrgId,
+            OrgId = null,
             Role = UserRole.InternalAdmin,
             IsActive = true,
             CreatedAtUtc = DateTime.UtcNow
@@ -170,7 +202,7 @@ public sealed class AuthController : ControllerBase
 
         var role = User.FindFirstValue(ClaimTypes.Role);
 
-        var orgId = User.FindFirstValue("orgId");
+        var orgId = User.FindFirstValue("orgId"); // InternalAdmin이면 null
 
         return Ok(new { userId, email, role, orgId });
     }

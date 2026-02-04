@@ -8,7 +8,8 @@ public sealed class User
 
     public string PasswordHash { get; set; } = string.Empty;
 
-    public Guid OrgId { get; set; }
+    // InternalAdmin은 Org에 소속되지 않으므로 nullable
+    public Guid? OrgId { get; set; }
 
     public UserRole Role { get; set; } = UserRole.Viewer;
 
@@ -18,9 +19,9 @@ public sealed class User
 
     public DateTime? UpdatedAtUtc { get; set; }
 
-    public Organization Org { get; set; } = null!;
+    // OrgId가 null일 수 있으므로 navigation도 nullable로 두는게 안전
+    public Organization? Org { get; set; }
 
     public List<Vehicle> CreatedVehicles { get; set; } = new();
     public List<Vehicle> UpdatedVehicles { get; set; } = new();
-
 }

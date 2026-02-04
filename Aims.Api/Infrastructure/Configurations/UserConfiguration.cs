@@ -23,8 +23,9 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(512)
             .IsRequired();
 
+        // InternalAdmin은 OrgId가 null일 수 있음
         b.Property(x => x.OrgId)
-            .IsRequired();
+            .IsRequired(false);
 
         b.Property(x => x.Role)
             .HasConversion<string>()
@@ -39,11 +40,12 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
         b.Property(x => x.UpdatedAtUtc);
 
-        // FK: users.org_id -> organizations.id
+        // Optional FK: users.org_id -> organizations.id
         b.HasOne(x => x.Org)
             .WithMany(o => o.Users)
             .HasForeignKey(x => x.OrgId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired(false);
 
         // audit inverse navs
         b.HasMany(x => x.CreatedVehicles)
