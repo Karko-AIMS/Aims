@@ -32,6 +32,10 @@ builder.Services.AddDbContext<AimsDbContext>(options =>
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<VehicleService>();
 
+builder.Services.AddScoped<IOrganizationRepository, OrganizationRepository>();
+builder.Services.AddScoped<OrganizationService>();
+
+
 // JWT Token Service
 builder.Services.AddScoped<JwtTokenService>();
 
