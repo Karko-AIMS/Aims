@@ -25,9 +25,14 @@ public sealed class JwtTokenService
         {
             new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new(JwtRegisteredClaimNames.Email, user.Email),
-            new("orgId", user.OrgId.ToString()),
             new(ClaimTypes.Role, user.Role.ToString())
         };
+
+        // InternalAdmin은 orgId claim을 넣지 않는다
+        if (user.OrgId.HasValue)
+        {
+            claims.Add(new Claim("orgId", user.OrgId.Value.ToString()));
+        }
 
         var creds = new SigningCredentials(
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
