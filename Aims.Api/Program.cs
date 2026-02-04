@@ -1,5 +1,5 @@
-using System.Text;
 using Aims.Api.Infrastructure.Data;
+using Aims.Api.Infrastructure.Data.Repositories;
 using Aims.Api.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using Scalar.AspNetCore;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,10 @@ builder.Services.AddDbContext<AimsDbContext>(options =>
     var cs = builder.Configuration.GetConnectionString("Default");
     options.UseNpgsql(cs);
 });
+
+// Repositories + Services
+builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+builder.Services.AddScoped<VehicleService>();
 
 // JWT Token Service
 builder.Services.AddScoped<JwtTokenService>();
