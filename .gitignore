@@ -372,3 +372,6 @@ FodyWeavers.xsd
 
 # optional
 **/secrets.json
+
+# Claude AI files
+.claude/
