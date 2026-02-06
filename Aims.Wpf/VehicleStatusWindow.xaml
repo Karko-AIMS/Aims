@@ -57,7 +57,7 @@
                            Margin="16,0,0,0"
                            VerticalAlignment="Center"
                            Stretch="Uniform"
-                           Source="/Assets/[공통] 케이에이알_로고_white.png"/>
+                           Source="/Assets/kar_logo_white.png"/>
 
                     <!-- Buttons: sit immediately left of the logo -->
                     <StackPanel Orientation="Horizontal"

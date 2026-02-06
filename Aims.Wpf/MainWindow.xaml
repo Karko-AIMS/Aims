@@ -49,7 +49,7 @@
                Margin="16,0,0,0"
                VerticalAlignment="Center"
                Stretch="Uniform"
-               Source="/Assets/[공통] 케이에이알_로고_white.png"/>
+               Source="/Assets/kar_logo_white.png"/>
             </Grid>
         </Border>
 
@@ -87,7 +87,7 @@
                                  Grid.Row="0" Grid.Column="1"
                                  Height="40"
                                  Margin="0,0,0,16"
-                                 Style="{StaticResource ModernTextBoxStyle}" TextChanged="EmailBox_TextChanged" Text="sadasd"/>
+                                 Style="{StaticResource ModernTextBoxStyle}" TextChanged="EmailBox_TextChanged" Text="op1@kar.local"/>
 
                         <!-- Password -->
                         <TextBlock Grid.Row="1" Grid.Column="0"
@@ -98,7 +98,7 @@
                                      Grid.Row="1" Grid.Column="1"
                                      Height="40"
                                      Margin="0,0,0,16"
-                                     Style="{StaticResource ModernPasswordBoxStyle}" Password="asdasd"/>
+                                     Style="{StaticResource ModernPasswordBoxStyle}" Password="Pass1234"/>
 
                         <!-- Checkboxes -->
                         <StackPanel Grid.Row="2" Grid.Column="1"

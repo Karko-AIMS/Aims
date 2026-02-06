@@ -50,7 +50,7 @@
                Margin="14,0,0,0"
                VerticalAlignment="Center"
                Stretch="Uniform"
-               Source="/Assets/[공통] 케이에이알_로고_white.png"/>
+               Source="/Assets/kar_logo_white.png"/>
             </Grid>
         </Border>
 
