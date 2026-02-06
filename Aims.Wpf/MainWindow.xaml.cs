@@ -261,4 +261,9 @@ public partial class MainWindow : Window
         LogText.AppendText($"[{DateTime.Now:HH:mm:ss}] {message}{Environment.NewLine}");
         LogText.ScrollToEnd();
     }
+
+    private void EmailBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    {
+
+    }
 }

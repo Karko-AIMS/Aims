@@ -60,10 +60,18 @@ public partial class VehicleEditDialog : Window
         }
     }
 
+    private void ShowError(string message)
+    {
+        StatusText.Text = message;
+        StatusBorder.Visibility = string.IsNullOrEmpty(message)
+            ? Visibility.Collapsed
+            : Visibility.Visible;
+    }
+
     private async void SaveButton_Click(object sender, RoutedEventArgs e)
     {
         SaveButton.IsEnabled = false;
-        StatusText.Text = "";
+        ShowError("");
 
         try
         {
@@ -73,13 +81,13 @@ public partial class VehicleEditDialog : Window
 
             if (!_isEditMode && string.IsNullOrWhiteSpace(vehicleCode))
             {
-                StatusText.Text = "Vehicle Code is required.";
+                ShowError("Vehicle Code is required.");
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(displayName))
             {
-                StatusText.Text = "Display Name is required.";
+                ShowError("Display Name is required.");
                 return;
             }
 
@@ -90,7 +98,7 @@ public partial class VehicleEditDialog : Window
             {
                 if (!int.TryParse(modelYearText, out var parsedYear))
                 {
-                    StatusText.Text = "Model Year must be a valid number.";
+                    ShowError("Model Year must be a valid number.");
                     return;
                 }
                 modelYear = parsedYear;
@@ -145,7 +153,7 @@ public partial class VehicleEditDialog : Window
         }
         catch (Exception ex)
         {
-            StatusText.Text = $"Error: {ex.Message}";
+            ShowError($"Error: {ex.Message}");
         }
         finally
         {
