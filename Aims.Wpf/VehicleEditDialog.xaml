@@ -17,25 +17,44 @@
 
         <!-- Header -->
         <Border Grid.Row="0"
-                Background="{StaticResource PrimaryGradientBrush}"
-                CornerRadius="10"
-                Padding="20,16"
-                Margin="0,0,0,20">
+        Background="{StaticResource PrimaryGradientBrush}"
+        CornerRadius="10"
+        Padding="20,16"
+        Margin="0,0,0,20">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="12" ShadowDepth="2" Direction="270" Color="#000000" Opacity="0.12"/>
             </Border.Effect>
-            <StackPanel>
-                <TextBlock x:Name="HeaderText"
-                           FontSize="22"
-                           FontWeight="Bold"
-                           Foreground="White"
-                           Text="Create Vehicle"/>
-                <TextBlock FontSize="12"
-                           Foreground="#B3FFFFFF"
-                           Margin="0,4,0,0"
-                           Text="Enter vehicle information below"/>
-            </StackPanel>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Left: Title -->
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock x:Name="HeaderText"
+                       FontSize="22"
+                       FontWeight="Bold"
+                       Foreground="White"
+                       Text="Register Vehicle"/>
+                    <TextBlock FontSize="12"
+                       Foreground="#B3FFFFFF"
+                       Margin="0,4,0,0"
+                       Text="Enter vehicle information below"/>
+                </StackPanel>
+
+                <!-- Right: KAR logo -->
+                <Image Grid.Column="1"
+               Width="44"
+               Height="44"
+               Margin="14,0,0,0"
+               VerticalAlignment="Center"
+               Stretch="Uniform"
+               Source="/Assets/[공통] 케이에이알_로고_white.png"/>
+            </Grid>
         </Border>
+
 
         <!-- Form Card -->
         <Border Grid.Row="1"

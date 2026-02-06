@@ -19,23 +19,38 @@
 
         <!-- Header with gradient -->
         <Border Grid.Row="0"
-                Background="{StaticResource PrimaryGradientBrush}"
-                CornerRadius="12"
-                Padding="24,16"
-                Margin="0,0,0,20">
+        Background="{StaticResource PrimaryGradientBrush}"
+        CornerRadius="12"
+        Padding="24,16"
+        Margin="0,0,0,20">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="15" ShadowDepth="3" Direction="270" Color="#000000" Opacity="0.15"/>
             </Border.Effect>
-            <StackPanel>
-                <TextBlock FontSize="28"
-                           FontWeight="Bold"
-                           Foreground="White"
-                           Text="AIMS WPF Client"/>
-                <TextBlock FontSize="13"
-                           Foreground="#B3FFFFFF"
-                           Margin="0,4,0,0"
-                           Text="Advanced Inventory Management System"/>
-            </StackPanel>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Left: Title -->
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock FontSize="28"
+                       FontWeight="Bold"
+                       Foreground="White"
+                       Text="AIMS"/>
+          
+                </StackPanel>
+
+                <!-- Right: KAR logo -->
+                <Image Grid.Column="1"
+               Width="64"
+               Height="64"
+               Margin="16,0,0,0"
+               VerticalAlignment="Center"
+               Stretch="Uniform"
+               Source="/Assets/[공통] 케이에이알_로고_white.png"/>
+            </Grid>
         </Border>
 
         <Grid Grid.Row="1">

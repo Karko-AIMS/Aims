@@ -18,56 +18,77 @@
 
         <!-- Header -->
         <Border Grid.Row="0"
-                Background="{StaticResource PrimaryGradientBrush}"
-                CornerRadius="12"
-                Padding="24,16"
-                Margin="0,0,0,16">
+        Background="{StaticResource PrimaryGradientBrush}"
+        CornerRadius="12"
+        Padding="24,16"
+        Margin="0,0,0,16">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="15" ShadowDepth="3" Direction="270" Color="#000000" Opacity="0.15"/>
             </Border.Effect>
+
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0">
+
+                <!-- Left: title -->
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
                     <TextBlock FontSize="26"
-                               FontWeight="Bold"
-                               Foreground="White"
-                               Text="Vehicle Management"/>
+                       FontWeight="Bold"
+                       Foreground="White"
+                       Text="Vehicle Status"/>
                     <TextBlock x:Name="WhoText"
-                               FontSize="13"
-                               Foreground="#B3FFFFFF"
-                               Margin="0,6,0,0"
-                               Text=""/>
+                       FontSize="13"
+                       Foreground="#B3FFFFFF"
+                       Margin="0,6,0,0"
+                       Text=""/>
                 </StackPanel>
-                <StackPanel Grid.Column="1"
-                            Orientation="Horizontal"
-                            VerticalAlignment="Center">
-                    <Button x:Name="LogoutButton"
-                            Width="100"
-                            Height="38"
-                            Style="{StaticResource SecondaryButtonStyle}"
-                            Background="#FFFFFF"
-                            Foreground="#0078D4"
-                            BorderThickness="0.1"
-                            BorderBrush="#CCE4F7"
-                            Content="Logout"
-                            Click="LogoutButton_Click"/>
-                    <Button x:Name="CloseButton"
-                            Width="100"
-                            Height="38"
-                            Margin="10,0,0,0"
-                            Style="{StaticResource SecondaryButtonStyle}"
-                            Background="#FFFFFF"
-                            Foreground="#0078D4"
-                            BorderThickness="0.1"
-                            BorderBrush="#CCE4F7"
-                            Content="Close"
-                            Click="CloseButton_Click"/>
-                </StackPanel>
+
+                <!-- Right: buttons follow logo, logo pinned to far right -->
+                <DockPanel Grid.Column="1"
+                   VerticalAlignment="Center"
+                   LastChildFill="False">
+
+                    <!-- Logo: always the far right -->
+                    <Image DockPanel.Dock="Right"
+                           Width="64"
+                           Height="44"
+                           Margin="16,0,0,0"
+                           VerticalAlignment="Center"
+                           Stretch="Uniform"
+                           Source="/Assets/[공통] 케이에이알_로고_white.png"/>
+
+                    <!-- Buttons: sit immediately left of the logo -->
+                    <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Center">
+                        <Button x:Name="LogoutButton"
+                        Width="100"
+                        Height="38"
+                        Style="{StaticResource SecondaryButtonStyle}"
+                        Background="#FFFFFF"
+                        Foreground="#0078D4"
+                        BorderThickness="1"
+                        BorderBrush="#CCE4F7"
+                        Content="Logout"
+                        Click="LogoutButton_Click"/>
+
+                        <Button x:Name="CloseButton"
+                        Width="100"
+                        Height="38"
+                        Margin="10,0,0,0"
+                        Style="{StaticResource SecondaryButtonStyle}"
+                        Background="#FFFFFF"
+                        Foreground="#0078D4"
+                        BorderThickness="1"
+                        BorderBrush="#CCE4F7"
+                        Content="Close"
+                        Click="CloseButton_Click"/>
+                    </StackPanel>
+                </DockPanel>
             </Grid>
         </Border>
+
 
         <!-- Main content -->
         <Grid Grid.Row="2">
